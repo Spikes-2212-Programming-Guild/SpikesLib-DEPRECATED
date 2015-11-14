@@ -11,15 +11,16 @@ import limitbased.LimitedSystem;
 /**
  *
  * @author thinkredstone
- * 
+ *
  * response to move a limited system forwards
  */
 public class SystemForwardResponse extends Response {
 
     private final LimitedSystem system;
-    private final double speed = 1;
+    private final double speed;
 
-    public SystemForwardResponse(LimitedSystem system) {
+    public SystemForwardResponse(LimitedSystem system, double speed) {
+        this.speed = speed;
         this.system = system;
     }
 

@@ -17,10 +17,11 @@ import limitbased.LimitedSystem;
 public class SystemBackwardsResponse extends Response {
 
     private final LimitedSystem system;
-    private final double speed = 1;
+    private final double speed;
 
-    public SystemBackwardsResponse(LimitedSystem system) {
+    public SystemBackwardsResponse(LimitedSystem system, double speed) {
         this.system = system;
+        this.speed = speed;
     }
 
     @Override
