@@ -16,6 +16,11 @@ public class Gearbox<SC extends SpeedController> implements SpeedController {
 
     SC front, rear;
 
+    public Gearbox(SC front, SC rear) {
+        this.front = front;
+        this.rear = rear;
+    }
+
     public double get() {
         return (front.get() + rear.get()) / 2;
     }
