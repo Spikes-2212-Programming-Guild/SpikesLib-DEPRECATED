@@ -11,7 +11,7 @@ package driving;
  */
 public interface Tank {
     
-    public void setRight();
-    public void setLeft();
+    public void setRight(double speed);
+    public void setLeft(double speed);
     
 }
