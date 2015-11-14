@@ -13,19 +13,19 @@ import eventbased.responses.Response;
  *
  * @author thinkredstone
  */
-public class MoveRightWithJoystick extends Response {
+public class MoveLeftWithJoystickResponse extends Response {
 
     private Tank tank;
     private Joystick joystick;
 
-    public MoveRightWithJoystick(Tank tank, Joystick joystick) {
+    public MoveLeftWithJoystickResponse(Tank tank, Joystick joystick) {
         this.tank = tank;
         this.joystick = joystick;
     }
 
     @Override
     protected void respond() {
-        tank.setRight(joystick.getY());
+        tank.setLeft(joystick.getY());
     }
 
 }
