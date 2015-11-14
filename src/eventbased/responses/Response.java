@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eventbased;
+package eventbased.responses;
 
 import eventbased.events.Event;
 
