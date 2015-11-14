@@ -25,12 +25,20 @@ public class TwoLimitSystem implements LimitedSystem {
 
     @Override
     public void forward(double speed) {
-        sc.set(speed);
+        if (!isForward()) {
+            sc.set(speed);
+        } else {
+            sc.set(0);
+        }
     }
 
     @Override
     public void backwards(double speed) {
-        sc.set(-speed);
+        if (!isBackwards()) {
+            sc.set(-speed);
+        } else {
+            sc.set(0);
+        }
     }
 
     @Override

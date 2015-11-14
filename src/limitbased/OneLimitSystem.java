@@ -24,7 +24,11 @@ public class OneLimitSystem implements LimitedSystem {
 
     @Override
     public void backwards(double speed) {
-        sc.set(-speed);
+        if (!isBackwards()) {
+            sc.set(-speed);
+        } else {
+            sc.set(0);
+        }
     }
 
     @Override
