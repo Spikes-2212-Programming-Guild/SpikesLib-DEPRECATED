@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.SpeedController;
  */
 public class Gearbox<SC extends SpeedController> implements SpeedController {
 
-    SC front, rear;
+    private SC front, rear;
 
     public Gearbox(SC front, SC rear) {
         this.front = front;
