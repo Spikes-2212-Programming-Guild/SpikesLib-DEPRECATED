@@ -5,6 +5,7 @@
  */
 package driving;
 
+import components.Gearbox;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
