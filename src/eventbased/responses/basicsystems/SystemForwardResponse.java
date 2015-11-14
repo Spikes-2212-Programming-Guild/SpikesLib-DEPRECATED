@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eventbased.responses.limitsystems;
+package eventbased.responses.basicsystems;
 
 import eventbased.responses.Response;
 import limitbased.LimitedSystem;
@@ -12,21 +12,21 @@ import limitbased.LimitedSystem;
  *
  * @author thinkredstone
  *
- * response to move a limited system backwards
+ * response to move a limited system forwards
  */
-public class SystemBackwardsResponse extends Response {
+public class SystemForwardResponse extends Response {
 
     private final LimitedSystem system;
     private final double speed;
 
-    public SystemBackwardsResponse(LimitedSystem system, double speed) {
-        this.system = system;
+    public SystemForwardResponse(LimitedSystem system, double speed) {
         this.speed = speed;
+        this.system = system;
     }
 
     @Override
     protected void respond() {
-        system.backwards(speed);
+        system.forward(speed);
     }
 
 }
