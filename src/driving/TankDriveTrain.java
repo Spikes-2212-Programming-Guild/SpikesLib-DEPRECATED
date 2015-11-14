@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.SpeedController;
  */
 public class TankDriveTrain<SC extends SpeedController> implements Tank {
 
-    private Gearbox<SC> left, right;
+    private SpeedController left, right;
 
-    public TankDriveTrain(Gearbox<SC> left, Gearbox<SC> right) {
+    public TankDriveTrain(SpeedController left, SpeedController right) {
         this.left = left;
         this.right = right;
     }
