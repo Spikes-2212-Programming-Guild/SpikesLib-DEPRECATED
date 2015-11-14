@@ -13,8 +13,15 @@ import edu.wpi.first.wpilibj.SpeedController;
  * @author thinkredstone
  */
 public class TwoLimitSystem implements LimitedSystem {
+
     private SpeedController sc;
     private DigitalInput forward, backwards;
+
+    public TwoLimitSystem(SpeedController sc, DigitalInput forward, DigitalInput backwards) {
+        this.sc = sc;
+        this.forward = forward;
+        this.backwards = backwards;
+    }
 
     @Override
     public void forward(double speed) {
@@ -35,5 +42,5 @@ public class TwoLimitSystem implements LimitedSystem {
     public boolean isBackwards() {
         return backwards.get();
     }
-    
+
 }
