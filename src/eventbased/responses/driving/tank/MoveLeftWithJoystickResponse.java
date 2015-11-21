@@ -25,8 +25,7 @@ public class MoveLeftWithJoystickResponse extends Response {
 
     @Override
     protected void respond() {
-        //left gets a minus
-        tank.setLeft(-joystick.getY());
+        tank.setLeft(joystick.getY());
     }
 
 }
