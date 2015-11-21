@@ -5,6 +5,7 @@
  */
 package eventbased;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import eventbased.events.Event;
 import eventbased.responses.Response;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class Scheduler implements Runnable {
             }
         }
         for (Map.Entry<Event, Response> entry : responseMap.entrySet()) {
+            SmartDashboard.putBoolean(String.valueOf(entry.getKey().getClass()), entry.getKey().isHappening());
             if (entry.getKey().isHappening()) {
                 Thread t = new Thread(entry.getValue());
                 threads.add(t);
