@@ -9,6 +9,7 @@ import eventbased.events.Event;
 import eventbased.responses.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -32,9 +33,10 @@ public class Scheduler implements Runnable {
 
     @Override
     public void run() {
-        for (Thread t : threads) {
+        for (Iterator<Thread> iterator = threads.iterator(); iterator.hasNext();) {
+            Thread t = iterator.next();
             if (!t.isAlive()) {
-                threads.remove(t);
+                iterator.remove();
             }
         }
         for (Map.Entry<Event, Response> entry : responseMap.entrySet()) {
