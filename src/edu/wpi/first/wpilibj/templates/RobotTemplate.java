@@ -10,7 +10,8 @@ import driving.Tank;
 import driving.TankDriveTrain;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.VictorSP;
 import eventbased.Scheduler;
 import eventbased.events.oi.JoystickYOverThreshold;
 import eventbased.responses.driving.tank.MoveLeftWithJoystickResponse;
@@ -28,7 +29,7 @@ public class RobotTemplate extends IterativeRobot {
     public Scheduler scheduler = new Scheduler();
     public Joystick left = new Joystick(0);
     public Joystick right = new Joystick(1);
-    public Tank drivetrain = new TankDriveTrain<Talon>(new Talon(1), new Talon(3), new Talon(2), new Talon(4));
+    public Tank drivetrain = new TankDriveTrain<VictorSP>(new VictorSP(0), new VictorSP(1), new VictorSP(8), new VictorSP(9));
 
     /**
      * This function is run when the robot is first started up and should be
