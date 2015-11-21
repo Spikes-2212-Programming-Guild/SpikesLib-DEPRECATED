@@ -4,7 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package edu.wpi.first.wpilibj.templates;
+package org.usfirst.frc.team2212.robot;
 
 import driving.Tank;
 import driving.TankDriveTrain;
@@ -24,7 +24,7 @@ import eventbased.responses.driving.tank.MoveRightWithJoystickResponse;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class RobotTemplate extends IterativeRobot {
+public class Robot extends IterativeRobot {
 
     public Scheduler scheduler = new Scheduler();
     public Joystick left = new Joystick(0);
