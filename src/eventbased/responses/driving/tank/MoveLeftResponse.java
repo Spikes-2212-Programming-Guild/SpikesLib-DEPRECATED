@@ -24,8 +24,7 @@ public class MoveLeftResponse extends Response {
 
     @Override
     protected void respond() {
-        //left gets a minus
-        tank.setLeft(-speed);
+        tank.setLeft(speed);
     }
 
 }
