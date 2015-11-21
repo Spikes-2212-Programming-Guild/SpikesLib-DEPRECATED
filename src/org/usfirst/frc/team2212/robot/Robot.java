@@ -11,10 +11,13 @@ import driving.TankDriveTrain;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.VictorSP;
 import eventbased.Scheduler;
+import eventbased.events.Event;
+import eventbased.events.logic.NotEvent;
 import eventbased.events.oi.JoystickYOverThreshold;
+import eventbased.responses.driving.tank.MoveLeftResponse;
 import eventbased.responses.driving.tank.MoveLeftWithJoystickResponse;
+import eventbased.responses.driving.tank.MoveRightResponse;
 import eventbased.responses.driving.tank.MoveRightWithJoystickResponse;
 
 /**
@@ -37,9 +40,12 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
-        scheduler.addResponse(new JoystickYOverThreshold(left, 0.1), new MoveLeftWithJoystickResponse(drivetrain, left));
-        scheduler.addResponse(new JoystickYOverThreshold(right, 0.1), new MoveRightWithJoystickResponse(drivetrain, right));
-
+        Event leftThreshold = new JoystickYOverThreshold(left, 0.1);
+        Event rightThreshold = new JoystickYOverThreshold(right, 0.1);
+        scheduler.addResponse(leftThreshold, new MoveLeftWithJoystickResponse(drivetrain, left));
+        scheduler.addResponse(rightThreshold, new MoveRightWithJoystickResponse(drivetrain, right));
+        scheduler.addResponse(new NotEvent(leftThreshold), new MoveLeftResponse(drivetrain, 0));
+        scheduler.addResponse(new NotEvent(rightThreshold), new MoveRightResponse(drivetrain, 0));
     }
 
     /**
