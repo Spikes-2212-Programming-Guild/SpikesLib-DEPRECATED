@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj.SpeedController;
 /**
  *
  * @author thinkredstone
- * @param <SC> Type of Speed controller
+ * @param <SpeedController> Type of Speed controller
  */
-public class Gearbox<SC extends SpeedController> implements SpeedController {
+public class Gearbox implements SpeedController {
 
-    private SC front, rear;
+    private SpeedController front, rear;
 
-    public Gearbox(SC front, SC rear) {
+    public Gearbox(SpeedController front, SpeedController rear) {
         this.front = front;
         this.rear = rear;
     }
