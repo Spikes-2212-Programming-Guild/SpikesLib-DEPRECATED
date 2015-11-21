@@ -7,6 +7,7 @@ package eventbased;
 
 import eventbased.events.Event;
 import eventbased.responses.Response;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,21 +18,30 @@ import java.util.Map;
 public class Scheduler implements Runnable {
 
     //The map contain the threads that are built around the events
-    private Map<Event, Thread> threads;
+    private Map<Event, Response> responseMap;
+    private ArrayList<Thread> threads;
 
     public Scheduler() {
-        threads = new HashMap<>();
+        responseMap = new HashMap<>();
+        threads = new ArrayList<>();
     }
 
     public void addResponse(Event e, Response r) {
-        threads.put(e, new Thread(r));
+        responseMap.put(e, r);
     }
 
     @Override
     public void run() {
-        for (Map.Entry<Event, Thread> entry : threads.entrySet()) {
+        for (Thread t : threads) {
+            if (!t.isAlive()) {
+                threads.remove(t);
+            }
+        }
+        for (Map.Entry<Event, Response> entry : responseMap.entrySet()) {
             if (entry.getKey().isHappening()) {
-                entry.getValue().start();
+                Thread t = new Thread(entry.getValue());
+                threads.add(t);
+                t.start();
             }
         }
     }
