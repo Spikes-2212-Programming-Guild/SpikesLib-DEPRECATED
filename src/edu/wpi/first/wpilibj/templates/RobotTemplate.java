@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import eventbased.Scheduler;
 import eventbased.events.oi.JoystickYOverThreshold;
-import eventbased.responses.driving.tank.MoveLeftWithJoystick;
-import eventbased.responses.driving.tank.MoveRightWithJoystick;
+import eventbased.responses.driving.tank.MoveLeftWithJoystickResponse;
+import eventbased.responses.driving.tank.MoveRightWithJoystickResponse;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,8 +36,8 @@ public class RobotTemplate extends IterativeRobot {
      */
     @Override
     public void robotInit() {
-        scheduler.addResponse(new JoystickYOverThreshold(left, 0.1), new MoveLeftWithJoystick(drivetrain, left));
-        scheduler.addResponse(new JoystickYOverThreshold(right, 0.1), new MoveRightWithJoystick(drivetrain, right));
+        scheduler.addResponse(new JoystickYOverThreshold(left, 0.1), new MoveLeftWithJoystickResponse(drivetrain, left));
+        scheduler.addResponse(new JoystickYOverThreshold(right, 0.1), new MoveRightWithJoystickResponse(drivetrain, right));
 
     }
 
