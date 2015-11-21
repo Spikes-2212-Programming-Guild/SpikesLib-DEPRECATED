@@ -6,16 +6,10 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj.templates;
 
-import driving.Tank;
-import driving.TankDriveTrain;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.VictorSP;
-import eventbased.Scheduler;
-import eventbased.events.oi.JoystickYOverThreshold;
-import eventbased.responses.driving.tank.MoveLeftWithJoystickResponse;
-import eventbased.responses.driving.tank.MoveRightWithJoystickResponse;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,10 +20,11 @@ import eventbased.responses.driving.tank.MoveRightWithJoystickResponse;
  */
 public class RobotTemplate extends IterativeRobot {
 
-    public Scheduler scheduler = new Scheduler();
-    public Joystick left = new Joystick(0);
-    public Joystick right = new Joystick(1);
-    public Tank drivetrain = new TankDriveTrain<VictorSP>(new VictorSP(0), new VictorSP(1), new VictorSP(8), new VictorSP(9));
+    VictorSP leftR = new VictorSP(0);
+    VictorSP leftF = new VictorSP(1);
+    VictorSP rightR = new VictorSP(8);
+    VictorSP rightF = new VictorSP(9);
+    Joystick j = new Joystick(0);
 
     /**
      * This function is run when the robot is first started up and should be
@@ -37,8 +32,6 @@ public class RobotTemplate extends IterativeRobot {
      */
     @Override
     public void robotInit() {
-        scheduler.addResponse(new JoystickYOverThreshold(left, 0.1), new MoveLeftWithJoystickResponse(drivetrain, left));
-        scheduler.addResponse(new JoystickYOverThreshold(right, 0.1), new MoveRightWithJoystickResponse(drivetrain, right));
 
     }
 
@@ -55,7 +48,11 @@ public class RobotTemplate extends IterativeRobot {
      */
     @Override
     public void teleopPeriodic() {
-        scheduler.run();
+        leftR.set(j.getY());
+        leftF.set(j.getY());
+        rightR.set(j.getY());
+        rightF.set(j.getY());
+        SmartDashboard.putNumber("Joystick", j.getY());
     }
 
     /**
