@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 package org.usfirst.frc.team2212.robot;
 
+import components.ReverseSpeedController;
 import driving.Tank;
 import driving.TankDriveTrain;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -32,7 +33,7 @@ public class Robot extends IterativeRobot {
     public Scheduler scheduler = new Scheduler();
     public Joystick left = new Joystick(0);
     public Joystick right = new Joystick(1);
-    public Tank drivetrain = new TankDriveTrain<VictorSP>(new VictorSP(0), new VictorSP(1), new VictorSP(8), new VictorSP(9));
+    public Tank drivetrain = new TankDriveTrain(new ReverseSpeedController(new VictorSP(0)), new ReverseSpeedController(new VictorSP(1)), new VictorSP(8), new VictorSP(9));
 
     /**
      * This function is run when the robot is first started up and should be
