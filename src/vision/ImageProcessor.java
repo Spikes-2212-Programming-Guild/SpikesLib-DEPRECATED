@@ -16,10 +16,11 @@ import java.util.logging.Logger;
  *
  * @author thinkredstone
  */
-public class ImageProcessor implements Closeable{
+public class ImageProcessor implements Closeable {
 
     private Process process = null;
-    private Scanner scanner;
+    private final Scanner scanner;
+    private double d = 0;
 
     public ImageProcessor(String path) {
         try {
@@ -31,12 +32,10 @@ public class ImageProcessor implements Closeable{
     }
 
     public double getLastMeasurement() {
-        while(scanner.hasNext()){
-            double d = scanner.nextDouble();
-            if(!scanner.hasNext())
-                return d;
+        while (scanner.hasNext()) {
+            d = scanner.nextDouble();
         }
-        return 0;
+        return d;
     }
 
     @Override
