@@ -12,6 +12,7 @@ import driving.TankDriveTrain;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import eventbased.Scheduler;
 import eventbased.events.Event;
 import eventbased.events.logic.NotEvent;
@@ -20,6 +21,10 @@ import eventbased.responses.driving.tank.MoveLeftResponse;
 import eventbased.responses.driving.tank.MoveLeftWithJoystickResponse;
 import eventbased.responses.driving.tank.MoveRightResponse;
 import eventbased.responses.driving.tank.MoveRightWithJoystickResponse;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import vision.ImageProcessor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,7 +39,7 @@ public class Robot extends IterativeRobot {
     public Joystick left = new Joystick(0);
     public Joystick right = new Joystick(1);
     public Tank drivetrain = new TankDriveTrain(new ReverseSpeedController(new VictorSP(0)), new ReverseSpeedController(new VictorSP(1)), new VictorSP(8), new VictorSP(9));
-
+    public ImageProcessor processor = new ImageProcessor("python /home/admin/imageTest.py");
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -63,6 +68,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         scheduler.run();
+        SmartDashboard.putNumber("Distance", processor.getLastMeasurement());
     }
 
     /**
@@ -71,6 +77,15 @@ public class Robot extends IterativeRobot {
     @Override
     public void testPeriodic() {
 
+    }
+    
+    @Override
+    public void disabledInit(){
+        try {
+            processor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
