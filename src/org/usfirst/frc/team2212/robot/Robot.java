@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
     public Joystick left = new Joystick(0);
     public Joystick right = new Joystick(1);
     public Tank drivetrain = new TankDriveTrain(new ReverseSpeedController(new VictorSP(0)), new ReverseSpeedController(new VictorSP(1)), new VictorSP(8), new VictorSP(9));
-    public ImageProcessor processor = new ImageProcessor("python /home/admin/imageTest.py");
+    public ImageProcessor processor = new ImageProcessor("/home/admin/imageTest.py");
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
