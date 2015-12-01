@@ -6,15 +6,13 @@
 package vision;
 
 import java.io.Closeable;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 /**
  *
@@ -22,40 +20,36 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class ImageProcessor implements Closeable {
 
-	private Process process = null;
+    private Process process = null;
+    private double d;
+    private BufferedReader reader;
 
-	public ImageProcessor(String path) {
-		try {
-			process = Runtime.getRuntime().exec(path);
-		} catch (IOException ex) {
-			Logger.getLogger(ImageProcessor.class.getName()).log(Level.SEVERE,
-					null, ex);
-		}
-	}
+    public ImageProcessor(String path) {
+        try {
+            process = new ProcessBuilder("python", path).start();
+        } catch (IOException ex) {
+            Logger.getLogger(ImageProcessor.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
+        reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+    }
 
-	double i = 0;
+    double i = 0;
 
-	public double getLastMeasurement() {
-		Scanner s = null;
-		try {
-			File f = new File("/home/admin/result");
-			if (f.exists()) {
-				s = new Scanner(f);
-				i++;
-				SmartDashboard.putNumber("index", i);
-				return s.nextDouble();
-			}
-		} catch (FileNotFoundException ex) {
-			return -1;
-		}
-		return -1;
-	}
+    public double getLastMeasurement() {
+        try {
+            return Double.valueOf(reader.readLine());
+        } catch (IOException ex) {
+            Logger.getLogger(ImageProcessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
 
-	@Override
-	public void close() throws IOException {
-		OutputStream os = process.getOutputStream();
-		os.write(3);// 3 is the value of ctrl-c in ascii
-		os.flush();
-	}
+    @Override
+    public void close() throws IOException {
+        OutputStream os = process.getOutputStream();
+        os.write(3);// 3 is the value of ctrl-c in ascii
+        os.flush();
+    }
 
 }
