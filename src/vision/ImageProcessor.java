@@ -39,7 +39,7 @@ public class ImageProcessor implements Closeable {
     public double getLastMeasurement() {
         try {
             return Double.valueOf(reader.readLine());
-        } catch (IOException ex) {
+        } catch (NullPointerException | IOException ex) {
             return -1;
         }
     }
