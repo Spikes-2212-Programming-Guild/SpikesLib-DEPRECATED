@@ -6,6 +6,8 @@
 package vision;
 
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Scanner;
@@ -19,8 +21,6 @@ import java.util.logging.Logger;
 public class ImageProcessor implements Closeable {
 
     private Process process = null;
-    private final Scanner scanner;
-    private double d = 0;
 
     public ImageProcessor(String path) {
         try {
@@ -28,14 +28,17 @@ public class ImageProcessor implements Closeable {
         } catch (IOException ex) {
             Logger.getLogger(ImageProcessor.class.getName()).log(Level.SEVERE, null, ex);
         }
-        scanner = new Scanner(process.getInputStream());
     }
 
     public double getLastMeasurement() {
-        while (scanner.hasNext()) {
-            d = scanner.nextDouble();
+        Scanner s = null;
+        try {
+            s = new Scanner(new File("/admin/home/result"));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ImageProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            return s.nextDouble();
         }
-        return d;
+        return -1;
     }
 
     @Override
