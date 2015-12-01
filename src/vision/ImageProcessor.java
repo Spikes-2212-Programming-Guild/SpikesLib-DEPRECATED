@@ -14,38 +14,48 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  *
  * @author thinkredstone
  */
 public class ImageProcessor implements Closeable {
 
-    private Process process = null;
+	private Process process = null;
 
-    public ImageProcessor(String path) {
-        try {
-            process = Runtime.getRuntime().exec(path);
-        } catch (IOException ex) {
-            Logger.getLogger(ImageProcessor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+	public ImageProcessor(String path) {
+		try {
+			process = Runtime.getRuntime().exec(path);
+		} catch (IOException ex) {
+			Logger.getLogger(ImageProcessor.class.getName()).log(Level.SEVERE,
+					null, ex);
+		}
+	}
 
-    public double getLastMeasurement() {
-        Scanner s = null;
-        try {
-            s = new Scanner(new File("/home/admin/result"));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ImageProcessor.class.getName()).log(Level.SEVERE, null, ex);
-            return s.nextDouble();
-        }
-        return -1;
-    }
+	double i = 0;
 
-    @Override
-    public void close() throws IOException {
-        OutputStream os = process.getOutputStream();
-        os.write(3);//3 is the value of ctrl-c in ascii
-        os.flush();
-    }
+	public double getLastMeasurement() {
+		Scanner s = null;
+		try {
+			File f = new File("/home/admin/result");
+			if (f.exists()) {
+				s = new Scanner(f);
+				i++;
+				SmartDashboard.putNumber("index", i);
+				return s.nextDouble();
+			}
+		} catch (FileNotFoundException ex) {
+			return -1;
+		}
+		return -1;
+	}
+
+	@Override
+	public void close() throws IOException {
+		OutputStream os = process.getOutputStream();
+		os.write(3);// 3 is the value of ctrl-c in ascii
+		os.flush();
+	}
 
 }
