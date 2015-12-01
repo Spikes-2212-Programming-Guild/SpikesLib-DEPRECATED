@@ -38,10 +38,10 @@ public class ImageProcessor implements Closeable {
 
     public double getLastMeasurement() {
         try {
-            return Double.valueOf(reader.readLine());
+            d = Double.valueOf(reader.readLine());
         } catch (NullPointerException | IOException ex) {
-            return -1;
         }
+        return d;
     }
 
     @Override
