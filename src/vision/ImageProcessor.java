@@ -5,6 +5,7 @@
  */
 package vision;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,8 +29,7 @@ public class ImageProcessor implements Closeable {
         try {
             process = new ProcessBuilder("python", path).start();
         } catch (IOException ex) {
-            Logger.getLogger(ImageProcessor.class.getName()).log(Level.SEVERE,
-                    null, ex);
+            SmartDashboard.putBoolean("NoProcess", true);
         }
         reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
     }
@@ -40,9 +40,8 @@ public class ImageProcessor implements Closeable {
         try {
             return Double.valueOf(reader.readLine());
         } catch (IOException ex) {
-            Logger.getLogger(ImageProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
         }
-        return -1;
     }
 
     @Override
