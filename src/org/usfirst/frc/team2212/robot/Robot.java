@@ -39,7 +39,8 @@ public class Robot extends IterativeRobot {
     public Joystick left = new Joystick(0);
     public Joystick right = new Joystick(1);
     public Tank drivetrain = new TankDriveTrain(new ReverseSpeedController(new VictorSP(0)), new ReverseSpeedController(new VictorSP(1)), new VictorSP(8), new VictorSP(9));
-    public ImageProcessor processor = new ImageProcessor("/home/admin/imageTest.py");
+    public ImageProcessor processor;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -62,6 +63,11 @@ public class Robot extends IterativeRobot {
 
     }
 
+    @Override
+    public void teleopInit() {
+        processor = new ImageProcessor("/home/admin/imageTest.py");
+    }
+
     /**
      * This function is called periodically during operator control
      */
@@ -78,9 +84,9 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {
 
     }
-    
+
     @Override
-    public void disabledInit(){
+    public void disabledInit() {
         try {
             processor.close();
         } catch (IOException ex) {
