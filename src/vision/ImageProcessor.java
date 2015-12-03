@@ -30,9 +30,9 @@ public class ImageProcessor implements Closeable {
 
     public ImageProcessor(String path) {
         try {
-            process = new ProcessBuilder("python", path).start();
+            //process = new ProcessBuilder("python", path).start();
             Thread.sleep(2000);
-            socket = new Socket("localhost", 2212);
+            socket = new Socket("0.0.0.0", 2212);
         } catch (IOException ex) {
             SmartDashboard.putBoolean("NoProcess", true);
         } catch (InterruptedException ex) {
@@ -59,7 +59,7 @@ public class ImageProcessor implements Closeable {
 
     @Override
     public void close() throws IOException {
-        process.destroy();
+        //process.destroy();
     }
 
 }
