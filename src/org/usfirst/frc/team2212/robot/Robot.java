@@ -6,17 +6,22 @@
 /*----------------------------------------------------------------------------*/
 package org.usfirst.frc.team2212.robot;
 
+import components.Gearbox;
 import components.ReverseSpeedController;
 import driving.Tank;
 import driving.TankDriveTrain;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import eventbased.Scheduler;
 import eventbased.events.Event;
 import eventbased.events.logic.NotEvent;
+import eventbased.events.oi.JoystickButtonPressedEvent;
 import eventbased.events.oi.JoystickYOverThreshold;
+import eventbased.responses.basicsystems.MoveSpeedControllerResponse;
 import eventbased.responses.driving.tank.MoveLeftResponse;
 import eventbased.responses.driving.tank.MoveLeftWithJoystickResponse;
 import eventbased.responses.driving.tank.MoveRightResponse;
@@ -38,9 +43,9 @@ public class Robot extends IterativeRobot {
     public Scheduler scheduler = new Scheduler();
     public Joystick left = new Joystick(0);
     public Joystick right = new Joystick(1);
-    public Tank drivetrain = new TankDriveTrain(new ReverseSpeedController(new VictorSP(0)), new ReverseSpeedController(new VictorSP(1)), new VictorSP(8), new VictorSP(9));
-    public ImageProcessor processor;
-
+    public Tank drivetrain = new TankDriveTrain(new ReverseSpeedController(new VictorSP(0)), new ReverseSpeedController(new VictorSP(1)), new VictorSP(2), new VictorSP(3));
+    public Gearbox loader = new Gearbox(new VictorSP(8), new ReverseSpeedController(new VictorSP(9)));
+    public Gearbox shooter = new Gearbox(new CANTalon(1), new ReverseSpeedController(new CANTalon(2)));
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -49,10 +54,17 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         Event leftThreshold = new JoystickYOverThreshold(left, 0.1);
         Event rightThreshold = new JoystickYOverThreshold(right, 0.1);
+        Event loadingButtonPressed = new JoystickButtonPressedEvent(left, 4);
+        Event shootingButtonPressed = new JoystickButtonPressedEvent(left, 10);
         scheduler.addResponse(leftThreshold, new MoveLeftWithJoystickResponse(drivetrain, left));
         scheduler.addResponse(rightThreshold, new MoveRightWithJoystickResponse(drivetrain, right));
         scheduler.addResponse(new NotEvent(leftThreshold), new MoveLeftResponse(drivetrain, 0));
         scheduler.addResponse(new NotEvent(rightThreshold), new MoveRightResponse(drivetrain, 0));
+        
+        scheduler.addResponse(loadingButtonPressed, new MoveSpeedControllerResponse(loader, 0.5));
+        scheduler.addResponse(new NotEvent(loadingButtonPressed), new MoveSpeedControllerResponse(loader, 0));
+        scheduler.addResponse(shootingButtonPressed, new MoveSpeedControllerResponse(shooter, 0.5));
+        scheduler.addResponse(new NotEvent(shootingButtonPressed), new MoveSpeedControllerResponse(shooter, 0));
     }
 
     /**
@@ -65,7 +77,6 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
-        processor = new ImageProcessor("/home/admin/imageTest.py");
     }
 
     /**
@@ -74,7 +85,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         scheduler.run();
-        SmartDashboard.putNumber("Distance", processor.getLastMeasurement());
     }
 
     /**
@@ -87,11 +97,6 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-        try {
-            processor.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
 }
