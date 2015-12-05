@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import eventbased.Scheduler;
@@ -43,7 +44,7 @@ public class Robot extends IterativeRobot {
     public Scheduler scheduler = new Scheduler();
     public Joystick left = new Joystick(0);
     public Joystick right = new Joystick(1);
-    public Tank drivetrain = new TankDriveTrain(new ReverseSpeedController(new VictorSP(0)), new ReverseSpeedController(new VictorSP(1)), new VictorSP(2), new VictorSP(3));
+    public Tank drivetrain = new TankDriveTrain(new ReverseSpeedController(new Talon(0)), new ReverseSpeedController(new Talon(1)), new Talon(2), new Talon(3));
     public Gearbox loader = new Gearbox(new VictorSP(8), new ReverseSpeedController(new VictorSP(9)));
     public Gearbox shooter = new Gearbox(new CANTalon(1), new ReverseSpeedController(new CANTalon(2)));
     /**
