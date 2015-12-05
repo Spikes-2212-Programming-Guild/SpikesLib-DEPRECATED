@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import eventbased.Scheduler;
 import eventbased.events.Event;
+import eventbased.events.LimitPressedEvent;
+import eventbased.events.logic.CompoundEvent;
 import eventbased.events.logic.NotEvent;
 import eventbased.events.oi.JoystickButtonPressedEvent;
 import eventbased.events.oi.JoystickYOverThreshold;
@@ -47,6 +49,7 @@ public class Robot extends IterativeRobot {
     public Tank drivetrain = new TankDriveTrain(new ReverseSpeedController(new Talon(0)), new ReverseSpeedController(new Talon(1)), new Talon(2), new Talon(3));
     public Gearbox loader = new Gearbox(new VictorSP(8), new ReverseSpeedController(new VictorSP(9)));
     public Gearbox shooter = new Gearbox(new CANTalon(1), new ReverseSpeedController(new CANTalon(2)));
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -55,15 +58,15 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         Event leftThreshold = new JoystickYOverThreshold(left, 0.1);
         Event rightThreshold = new JoystickYOverThreshold(right, 0.1);
-        Event loadingButtonPressed = new JoystickButtonPressedEvent(left, 4);
+        Event load = new CompoundEvent(new JoystickButtonPressedEvent(left, 4), new NotEvent(new LimitPressedEvent(0)));
         Event shootingButtonPressed = new JoystickButtonPressedEvent(left, 10);
         scheduler.addResponse(leftThreshold, new MoveLeftWithJoystickResponse(drivetrain, left));
         scheduler.addResponse(rightThreshold, new MoveRightWithJoystickResponse(drivetrain, right));
         scheduler.addResponse(new NotEvent(leftThreshold), new MoveLeftResponse(drivetrain, 0));
         scheduler.addResponse(new NotEvent(rightThreshold), new MoveRightResponse(drivetrain, 0));
-        
-        scheduler.addResponse(loadingButtonPressed, new MoveSpeedControllerResponse(loader, 0.5));
-        scheduler.addResponse(new NotEvent(loadingButtonPressed), new MoveSpeedControllerResponse(loader, 0));
+
+        scheduler.addResponse(load, new MoveSpeedControllerResponse(loader, 0.5));
+        scheduler.addResponse(new NotEvent(load), new MoveSpeedControllerResponse(loader, 0));
         scheduler.addResponse(shootingButtonPressed, new MoveSpeedControllerResponse(shooter, 0.5));
         scheduler.addResponse(new NotEvent(shootingButtonPressed), new MoveSpeedControllerResponse(shooter, 0));
     }
