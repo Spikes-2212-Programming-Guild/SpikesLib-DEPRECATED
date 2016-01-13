@@ -10,16 +10,16 @@ import edu.wpi.first.wpilibj.SpeedController;
 /**
  *
  * @author thinkredstone
- * @param <SC> The type of speed controller
+ * @param <SpeedController> The type of speed controller
  *
  * A way to reverse a Speed controller. Will cause the speed controller to
  * return opposite get and set opposite speed.
  */
-public class ReverseSpeedController<SC extends SpeedController> implements SpeedController {
+public class ReverseSpeedController implements SpeedController {
 
-    SC sc;
+    SpeedController sc;
 
-    public ReverseSpeedController(SC sc) {
+    public ReverseSpeedController(SpeedController sc) {
         this.sc = sc;
     }
 
