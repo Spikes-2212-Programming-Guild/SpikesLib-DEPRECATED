@@ -11,7 +11,7 @@ import com.spikes2212.predicate.Event;
 /*
  * Inspired by Dota 2
  */
-public class Invoker {
+public class Invoker implements Runnable {
 
 	private Map<Event, Runnable> eventMap;
 	private Map<DoubleSupplier, DoubleConsumer> doubleMap;
