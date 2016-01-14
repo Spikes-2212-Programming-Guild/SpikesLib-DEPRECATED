@@ -2,7 +2,7 @@ package com.spikes2212.controller;
 
 import edu.wpi.first.wpilibj.Encoder;
 
-public class EncodedController extends MonitoredController {
+public class EncodedController extends PIDController {
 
 	private Encoder encoder;
 

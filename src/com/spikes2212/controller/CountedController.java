@@ -2,7 +2,7 @@ package com.spikes2212.controller;
 
 import edu.wpi.first.wpilibj.Counter;
 
-public class CountedController extends MonitoredController {
+public class CountedController extends PIDController {
 
 	private Counter counter;
 

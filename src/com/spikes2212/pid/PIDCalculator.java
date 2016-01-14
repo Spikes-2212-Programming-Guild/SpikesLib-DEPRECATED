@@ -1,9 +1,12 @@
 package com.spikes2212.pid;
 
-public class PIDCalculator {
+import java.util.function.DoubleConsumer;
+import java.util.function.DoubleSupplier;
+
+public class PIDCalculator implements DoubleConsumer, DoubleSupplier {
 
 	public static final long DEFAULT_DT = 30;
-
+	private long lastTime = 0;
 	private double kp, ki, kd;
 	private double pValue, iValue, dValue;
 	private double setpoint;
@@ -17,11 +20,16 @@ public class PIDCalculator {
 	}
 
 	public double calculate(double input) {
-		prevError = error;
-		error = setpoint - input;
-		pValue = kp * error;
-		iValue += ki * (prevError + error) * DEFAULT_DT / 2;
-		dValue = kd * (error - prevError) / DEFAULT_DT;
+		long time = System.currentTimeMillis();
+		if (lastTime != 0) {
+			long dt = time - lastTime;
+			prevError = error;
+			error = setpoint - input;
+			pValue = kp * error;
+			iValue += ki * (prevError + error) * dt / 2;
+			dValue = kd * (error - prevError) / dt;
+		}
+		lastTime = time;
 		return getResult();
 	}
 
@@ -58,5 +66,15 @@ public class PIDCalculator {
 
 	public boolean hasReached() {
 		return Math.abs(error) < tolerance;
+	}
+
+	@Override
+	public void accept(double value) {
+		calculate(value);
+	}
+
+	@Override
+	public double getAsDouble() {
+		return getResult();
 	}
 }
