@@ -1,9 +1,6 @@
 package com.spikes2212.pid;
 
-import java.util.function.DoubleConsumer;
-import java.util.function.DoubleSupplier;
-
-public class PIDCalculator implements DoubleConsumer, DoubleSupplier {
+public class PIDCalculator {
 
 	public static final long DEFAULT_DT = 30;
 	private long lastTime = 0;
@@ -68,13 +65,4 @@ public class PIDCalculator implements DoubleConsumer, DoubleSupplier {
 		return Math.abs(error) < tolerance;
 	}
 
-	@Override
-	public void accept(double value) {
-		calculate(value);
-	}
-
-	@Override
-	public double getAsDouble() {
-		return getResult();
-	}
 }

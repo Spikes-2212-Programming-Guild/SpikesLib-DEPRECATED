@@ -1,9 +1,6 @@
 package com.spikes2212.controller;
 
-import java.util.function.DoubleConsumer;
-import java.util.function.DoubleSupplier;
-
-public abstract class PIDController implements MotorController, DoubleSupplier, DoubleConsumer {
+public abstract class PIDController implements MotorController {
 
 	private MotorController controller;
 
@@ -14,16 +11,6 @@ public abstract class PIDController implements MotorController, DoubleSupplier, 
 	@Override
 	public void set(double speed) {
 		controller.set(speed);
-	}
-
-	@Override
-	public double getAsDouble() {
-		return getDistance();
-	}
-
-	@Override
-	public void accept(double value) {
-		set(value);
 	}
 
 	public abstract double getDistance();
