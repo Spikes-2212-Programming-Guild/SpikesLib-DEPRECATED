@@ -1,6 +1,6 @@
 package com.spikes2212.controller;
 
-public abstract class PIDController implements MotorController {
+public abstract class PIDController {
 
 	private MotorController controller;
 
@@ -8,7 +8,6 @@ public abstract class PIDController implements MotorController {
 		this.controller = controller;
 	}
 
-	@Override
 	public void set(double speed) {
 		controller.set(speed);
 	}
