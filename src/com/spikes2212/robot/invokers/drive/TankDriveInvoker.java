@@ -16,9 +16,9 @@ public class TankDriveInvoker implements Runnable{
     private Joystick leftJoystick, rightJoystick;
     private TankDrive drivetrain;
 
-    public TankDriveInvoker(Joystick l, Joystick r, TankDrive drivetrain) {
-        this.leftJoystick = l;
-        this.rightJoystick = r;
+    public TankDriveInvoker(Joystick leftJoystick, Joystick rightJoystick, TankDrive drivetrain) {
+        this.leftJoystick = leftJoystick;
+        this.rightJoystick = rightJoystick;
         this.drivetrain = drivetrain;
     }
 
