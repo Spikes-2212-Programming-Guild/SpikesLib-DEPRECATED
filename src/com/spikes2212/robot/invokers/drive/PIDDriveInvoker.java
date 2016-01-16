@@ -23,6 +23,10 @@ public class PIDDriveInvoker implements Runnable {
         this.drivetrain = drivetrain;
         this.calculator = calculator;
     }
+    
+    public boolean hasReached(){
+        return calculator.hasReached();
+    }
 
     @Override
     public void run() {
