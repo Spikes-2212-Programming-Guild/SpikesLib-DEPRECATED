@@ -5,6 +5,7 @@
  */
 package com.spikes2212.robot.invokers.drive;
 
+import com.spikes2212.commandbased.Command;
 import com.spikes2212.drive.TankDrive;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -12,7 +13,8 @@ import edu.wpi.first.wpilibj.Joystick;
  *
  * @author thinkredstone
  */
-public class TankDriveInvoker implements Runnable{
+public class TankDriveInvoker implements Runnable {
+
     private Joystick leftJoystick, rightJoystick;
     private TankDrive drivetrain;
 
@@ -27,6 +29,4 @@ public class TankDriveInvoker implements Runnable{
         drivetrain.tankSet(leftJoystick.getY(), rightJoystick.getY());
     }
 
-    
-    
 }
