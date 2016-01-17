@@ -9,12 +9,12 @@ package com.spikes2212.commandbased;
  *
  * @author thinkredstone
  */
-public abstract class Command implements Runnable {
+public interface Command {
 
-    @Override
-    public void run() {
-    }
-    
-   public abstract boolean isFinished();
-   public abstract void end();
+	public boolean isFinished();
+
+	public void end();
+
+	public void run();
+
 }

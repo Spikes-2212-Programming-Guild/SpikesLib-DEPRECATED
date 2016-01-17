@@ -5,11 +5,12 @@
  */
 package com.spikes2212.commandbased;
 
-import com.spikes2212.predicate.Event;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.spikes2212.predicate.Event;
 
 /**
  *
@@ -17,22 +18,47 @@ import java.util.Map;
  */
 public class Scheduler {
 
-    private Map<Event, Runnable> runnables;
-    private List<Runnable> currentlyRunning;
+	private Map<Event, Command> commands;
+	private List<Command> currentlyRunning;
 
-    public Scheduler() {
-        runnables = new HashMap<>();
-    }
+	public Scheduler() {
+		commands = new HashMap<>();
+	}
 
-    public void register(Event event, Runnable runnable) {
-        runnables.put(event, runnable);
-    }
+	public void register(Event event, Runnable runnable) {
+		commands.put(event, new Command() {
 
-    public void run() {
-        for (Map.Entry<Event, Runnable> entry : runnables.entrySet()) {
-            if(entry.getKey().get()){
-                if(entry.getValue() instanceof Command)
-            }
-        }
-    }
+			@Override
+			public void run() {
+				runnable.run();
+			}
+
+			@Override
+			public boolean isFinished() {
+				return !event.get();
+			}
+
+			@Override
+			public void end() {
+			}
+		});
+	}
+
+	public void run() {
+		for (Map.Entry<Event, Command> entry : commands.entrySet()) {
+			if (entry.getKey().get()
+					&& !currentlyRunning.contains(entry.getKey())) {
+				currentlyRunning.add(entry.getValue());
+			}
+		}
+		for (Iterator<Command> it = currentlyRunning.iterator(); it.hasNext();) {
+			Command command = it.next();
+			if (command.isFinished()) {
+				command.end();
+				it.remove();
+				break;
+			}
+			command.run();
+		}
+	}
 }

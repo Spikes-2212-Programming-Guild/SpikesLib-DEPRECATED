@@ -16,43 +16,43 @@ import java.util.List;
  */
 public class ParallelCommand implements Command {
 
-    private List<Command> commands;
-    private boolean firstRun;
-    private List<Command> currentlyRunning;
+	private List<Command> commands;
+	private boolean firstRun;
+	private List<Command> currentlyRunning;
 
-    public ParallelCommand(Command[] commands) {
-        this.commands = Arrays.asList(commands);
-    }
+	public ParallelCommand(Command[] commands) {
+		this.commands = Arrays.asList(commands);
+	}
 
-    @Override
-    public boolean isFinished() {
-        boolean allFinished = true;
-        for (Command c : commands) {
-            allFinished = c.isFinished() && allFinished;
-        }
-        return allFinished;
-    }
+	@Override
+	public boolean isFinished() {
+		boolean allFinished = true;
+		for (Command c : commands) {
+			allFinished = c.isFinished() && allFinished;
+		}
+		return allFinished;
+	}
 
-    @Override
-    public void end() {
-        firstRun = true;
-    }
+	@Override
+	public void end() {
+		firstRun = true;
+	}
 
-    @Override
-    public void run() {
-        if (firstRun) {
-            firstRun = false;
-            currentlyRunning = new ArrayList<>(commands);
-        }
-        for (Iterator<Command> it = currentlyRunning.iterator(); it.hasNext();) {
-            Command c = it.next();
-            if (c.isFinished()) {
-                c.end();
-                it.remove();
-            } else {
-                c.run();
-            }
-        }
-    }
+	@Override
+	public void run() {
+		if (firstRun) {
+			firstRun = false;
+			currentlyRunning = new ArrayList<>(commands);
+		}
+		for (Iterator<Command> it = currentlyRunning.iterator(); it.hasNext();) {
+			Command c = it.next();
+			if (c.isFinished()) {
+				c.end();
+				it.remove();
+			} else {
+				c.run();
+			}
+		}
+	}
 
 }
